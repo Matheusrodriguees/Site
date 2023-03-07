@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="index.css" media="screen" />
+    <!--<link href="Senha.css" rel="stylesheet">-->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimidia</title>
+    <style>
+    select{
+    background-color: #eee;
+	border: none;
+	padding: 12px 15px;
+	margin: 8px 0;
+	width: 100%;}
+    </style>
+  
+</head>
+<body>
+<div class="container" id="container">
+    <div class="form-container cadastrar-container">
+        <form method="post" action="login_crud.php?acao=logar" name="dados" onSubmit="return enviardados();">
+            <h1>Criar uma conta</h1>
+            
+            <input name="Nome" type="text" placeholder="Name" required/>
+            <input name="Email" type="email" placeholder="Email" required/>
+            <input name="Senha" type="password" placeholder="Password" required/>
+                <select  name="PerguntaSeguranca" class="select" type="text" placeholder="Pergunta de Segurança">
+                    <option value="Nome da Mãe">Nome da Mãe</option>
+                    <option value="Nome do Primeiro Pet">Nome do Primeiro Pet</option>
+                    <option value="Comida Favorita">Comida Favorita</option>
+                </select>
+			<input name="RespostaSeguranca" type="text" placeholder="Resposta de Segurança" />
+			<button type="submit" name="action" formaction="login_crud.php?acao=cadastrar">cadastrar</button>
+        </form>
+    </div>
+    <div class="form-container entrar-container">
+		<form method="post" action="login_crud.php?acao=logar&ampid=$Email" name="dados" onSubmit="return enviardados);">
+            <h1>Entrar</h1>
+            <input name="Email" type="email" id="Email" placeholder="Email" required />
+			<input name="Senha" type="password" placeholder="Password" required/>
+            <a class="button" href="recuperar_page.php">
+                Esqueceu sua senha?
+            </a>
+            <button>entrar</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Bem vindo de volta!</h1>
+                <p>Para se manter conectado conosco, faça login com suas informações pessoais</p>
+                <button name="Submit" type="submit" class="ghost" id="entrar" >Entrar</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Olá amigo!</h1>
+                <p>Insira seus dados pessoais e comece a jornada conosco</p>
+                <button class="ghost" id="cadastrar">Cadastrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const cadastrarButton = document.getElementById('cadastrar');
+    const entrarButton = document.getElementById('entrar');
+    const container = document.getElementById('container');
+
+
+
+   cadastrarButton.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+});
+
+
+
+   entrarButton.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+});
+</script>
+
+
+
+
+</body>
+</html>

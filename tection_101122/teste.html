@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="test.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>TESTE</h2>
+     
+    <form id="google" name="google" action="#">
+ 
+    <p><label for="direccion">Lugar:  </label>
+    <input style="width:400px" type="text" id="direccion" name="direccion" value="" 
+           placeholder="Where would you like to go?"/>
+    <button id="pasar">Obtener coordenadas</button> 
+    </p>
+      <span id="longlat"> lat, long </span>
+      
+    <!-- div donde se dibuja el mapa-->
+    <div id="map_canvas" style="width:800px;height:300px;"></div>
+     <br>
+      
+    <!--campos ocultos donde guardamos los datos-->
+    <p>Latitud: <input type="text" readonly name="lat" id="lat"/> - Longitud: <input type="text" readonly name="lng" id="long"/></p>
+ 
+    </form>
+
+    <div id="map_lima"></div>
+    
+        <link rel="stylesheet" href="https://maps.googleapis.com/maps/api/js">
+<!-- Agregar la librería de Google Maps API -->
+
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+
+<script>
+var direccion_lima=new google.maps.LatLng(-12.046374,-77.0427934);
+
+// Función para inicializar el mapa
+function initialize()
+{
+var mapProp = {
+  //Muestra las coordenadas al centro del mapa
+  center:direccion_lima,
+  //Zoom del mapa 
+  zoom:10,
+ // Tipo de mapa: ROADMAP, SATELLITE, HYBRID, TERRAIN 
+  mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+
+// Creamos un mapa en el contenedor con id map_lima,  usando los parámetros de la variable mapProp
+var map = new google.maps.Map(document.getElementById("map_lima"),mapProp);
+
+var myCity = new google.maps.Circle({
+  //Muestra las coordenadas al centro del mapa
+  center:direccion_lima,
+  //Especifica el radio del círculo, en metros
+  radius:2000,
+  //Especifica un color hexadecimal para la línea alrededor del círculo (formato: "#FFFFFF")
+  strokeColor:"#0080FF",
+  //Especifica la opacidad del color del trazo (un valor entre 0,0 y 1,0)
+  strokeOpacity:0.8,
+  //Especifica el grosor del trazo de la línea en píxeles
+  strokeWeight:2,
+  //Especifica un color hexadecimal para el área dentro del círculo (formato: "#FFFFFF")
+  fillColor:"#0080FF",
+  //Especifica la opacidad del color de relleno (un valor entre 0,0 y 1,0)
+  fillOpacity:0.4,
+  //Define si el círculo es editable por los usuarios (verdadero / falso)
+  editable: false
+  });
+
+//Mostramos el circulo en el mapa utilizando el método setMap()
+myCity.setMap(map);
+
+//Mostramos el marcador en las coordenadas almacenada en la variable direccion_lima
+var marker=new google.maps.Marker({
+  position:direccion_lima,
+});
+
+//Añadimos el marcador para el mapa utilizando el método setMap()
+marker.setMap(map);
+
+// Mostramos nuestro texto
+var infowindow = new google.maps.InfoWindow({
+  content:"Lima - Perú!"
+  });
+
+//infowindow muestra el contenido (generalmente texto o imágenes) en una ventana emergente por encima del mapa
+infowindow.open(map,marker);
+}
+
+//Mostramos el mapa una vez que cargue el navegador, con el evento addDomListener de Google Maps API
+google.maps.event.addDomListener(window, 'load', initialize);
+    
+     
+    //funcion que simplemente actualiza los campos del formulario
+    function updatePosition(latLng)
+    {
+         var address = document.getElementById("direccion").value;
+         
+         address = address.replace(/\s/g, "_");  // to use also as var
+      
+         jQuery('#lat').val(latLng.lat());
+         jQuery('#long').val(latLng.lng());
+      
+         jQuery('#latlong').html(address + "<b>lat,lng:</b>["+latLng.lat()+", "+latLng.lng()+"]");
+         jQuery('#longlat').html(address + " = ["+latLng.lng()+", "+latLng.lat()+"]; // <b>[lng, lat]</b>");
+     
+    }
+    
+</script>
+<p id="demo">Clique no botão para receber sua localização em Latitude e Longitude:</p>
+<button onclick="getLocation()">Clique Aqui</button>
+<script>
+var x=document.getElementById("demo");
+function getLocation()
+  {
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.getCurrentPosition(showPosition);
+    }
+  else{x.innerHTML="O seu navegador não suporta Geolocalização.";}
+  }
+function showPosition(position)
+  {
+  x.innerHTML="Latitude: " + position.coords.latitude +
+  "<br>Longitude: " + position.coords.longitude; 
+  }
+</script>
+
+
+Read more: http://www.linhadecodigo.com.br/artigo/3653/usando-geolocalizacao-com-html5.aspx#ixzz7gwCNgHqt
+</body>
+</html>
